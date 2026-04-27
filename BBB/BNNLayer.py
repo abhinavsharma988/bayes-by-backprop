@@ -12,7 +12,7 @@ class BNNLayer(nn.Module):
     softplus = lambda x: math.log(1 + math.exp(x))
 
     def __init__(self, n_input, n_output, activation, prior_mean, prior_rho):
-        assert activation in {'relu', 'softmax', 'none'}, 'Activation Type Not Found'
+        assert activation in {'relu', 'softmax', 'tanh','none'}, 'Activation Type Not Found'
 
         super(BNNLayer, self).__init__()
 
