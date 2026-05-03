@@ -24,19 +24,21 @@ X = torch.from_numpy(x).float()#.requires_grad_(True)
 Y = torch.from_numpy(y).float()
 
 # Initialize network
-bnn = BNN(BNNLayer(1, 50, activation='relu', prior_mean=0, prior_rho=0),
+bnn = BNN(BNNLayer(1, 50, activation='tanh', prior_mean=0, prior_rho=0),
           BNNLayer(50, 1, activation='none', prior_mean=0, prior_rho=0))
 
 optim = torch.optim.Adam(bnn.parameters(), lr=1e-1)
-
+loss_history = []
 # Main training loop
-for i_ep in range(20000):
+for i_ep in range(2000):
     print(i_ep)
     kl, lg_lklh = bnn.Forward(X, Y, 1, 'Gaussian')
     loss = BNN.loss_fn(kl, lg_lklh, 1)
     optim.zero_grad()
     loss.backward()
     optim.step()
+    
+    loss_history.append(loss.item())
 
 # Plotting
 plt.scatter(x, y, c='navy', label='target')
@@ -67,4 +69,12 @@ plt.fill_between(
 plt.plot(x_, y_, c='grey', label='truth')
 plt.legend()
 plt.tight_layout()
+plt.show()
+
+
+plt.figure()   # create new plot window
+plt.plot(loss_history)
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.title("Training Loss")
 plt.show()

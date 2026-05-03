@@ -23,6 +23,7 @@ class BNN(nn.Module):
                 x = layer.forward(x, mode)
             return x
 
+# Training loop
     def Forward(self, x, y, n_samples, type):
 
         assert type in {'Gaussian', 'Softmax'}, 'Likelihood type not found'
