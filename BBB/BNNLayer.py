@@ -98,13 +98,9 @@ class BNNLayer(nn.Module):
                 torch.pow(X, 2),
                 self.prior_var.expand(self.n_input, self.n_output)
             )
-
             +
-
             self.prior_var.expand(*_shape)
-
         ).detach()
-
 
         # =========================
         # STEP 5: KL divergence
@@ -115,7 +111,6 @@ class BNNLayer(nn.Module):
             Z_Mean.detach(), Prior_Z_Std
         )
 
-
         # =========================
         # STEP 6: Activation
         # =========================
@@ -124,24 +119,15 @@ class BNNLayer(nn.Module):
         else:
             out = Z
 
-
         return out, layer_KL
-
-
 
     def _random(self, shape):
 
         Z_noise = np.random.choice(
             self._gaussian_block,
-            size = shape[0] * shape[1]
-        )
-
+            size = shape[0] * shape[1])
         Z_noise = np.expand_dims(Z_noise, axis=1).reshape(*shape)
-
         return self._Var(Z_noise)
-
-
-
     @staticmethod
     def log_gaussian(x, mean, std):
 
@@ -150,9 +136,6 @@ class BNNLayer(nn.Module):
             - torch.log(std)
             - 0.5 * torch.pow(x - mean, 2) / torch.pow(std, 2)
         )
-
-
-
     @staticmethod
     def sample_KL(x, mean1, std1, mean2, std2):
 
